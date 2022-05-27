@@ -1,25 +1,27 @@
-import useState from "react";
+import {useState, useEffect} from "react";
 
 
 function App() {
+  console.log("outside useEffect");
 
-  let[data, setData] = useState({
-    rollno : "",
-    name : ""
-  });
+  const [count, setCount] = useState(window.innerWidth);
+  function setFun(){
+    setCount(window.innerWidth);
+  }
+  useEffect(()=>{
+  window.addEventListener("resize",setFun); 
+  return ()=>{
+  console.log("cleanup operation")
+  window.removeEventListener("resize", setFun);
+  }
+  },[]);
+  <h1>I've rendered {count} times!</h1>;
   return (
     <>
-    Welcome: {data.name}
-    <form onSubmit={(e)=> {e.preventDefault() 
-    //   console.log({name})
-    }}>
-    RollNo.:<input type="text" value={data.rollno}  onChange={(e)=> setData({...data, rollno:e.target.value}) } /><br/>
-    Name:<input type="text" value={data.name}  onChange={(e)=> setData({...data, name:e.target.value}) } /><br/>
-    
-    <button type="submit">Submit</button>
-
-    </form>
-    </>    
+      
+      
+      <h1>{count}</h1> 
+    </>   
   );
 }
 
